@@ -31,6 +31,7 @@ export class AccessRightFieldCmp extends Component {
       labelIcon,
       showMetadataAccess,
       community,
+      help,
     } = this.props;
 
     const isGhostCommunity = community?.is_ghost === true;
@@ -46,6 +47,7 @@ export class AccessRightFieldCmp extends Component {
               <FieldLabel htmlFor={fieldPath} icon={labelIcon} label={label} />
             </Card.Header>
           </Card.Content>
+          {help && <Card.Content>{help}</Card.Content>}
           <Card.Content>
             {showMetadataAccess && (
               <>
@@ -97,6 +99,7 @@ AccessRightFieldCmp.propTypes = {
   labelIcon: PropTypes.string.isRequired,
   showMetadataAccess: PropTypes.bool,
   community: PropTypes.object,
+  help: PropTypes.any,
 };
 
 AccessRightFieldCmp.defaultProps = {
@@ -130,9 +133,11 @@ AccessRightField.propTypes = {
   label: PropTypes.string.isRequired,
   labelIcon: PropTypes.string,
   isMetadataOnly: PropTypes.bool,
+  help: PropTypes.any,
 };
 
 AccessRightField.defaultProps = {
   labelIcon: undefined,
   isMetadataOnly: undefined,
+  help: undefined,
 };
