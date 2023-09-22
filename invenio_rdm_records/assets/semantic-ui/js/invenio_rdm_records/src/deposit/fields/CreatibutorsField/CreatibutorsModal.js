@@ -455,8 +455,15 @@ export class CreatibutorsModal extends Component {
   };
 
   render() {
-    const { initialCreatibutor, autocompleteNames, roleOptions, trigger, action } =
-      this.props;
+    const {
+      initialCreatibutor,
+      autocompleteNames,
+      roleOptions,
+      trigger,
+      action,
+      showRole,
+    } = this.props;
+
     const {
       open,
       showPersonForm,
@@ -679,16 +686,22 @@ export class CreatibutorsModal extends Component {
                     (showPersonForm &&
                       _get(values, typeFieldPath) === CREATIBUTOR_TYPE.PERSON)) && (
                     <div>
-                      <SelectField
-                        fieldPath={roleFieldPath}
-                        label={i18next.t("Role")}
-                        options={roleOptions}
-                        placeholder={i18next.t("Select role")}
-                        {...(this.isCreator() && { clearable: true })}
-                        required={!this.isCreator()}
-                        optimized
-                        scrolling
+                      <AffiliationsField
+                        fieldPath={affiliationsFieldPath}
+                        selectRef={this.affiliationsRef}
                       />
+                      {showRole && (
+                        <SelectField
+                          fieldPath={roleFieldPath}
+                          label={i18next.t("Role")}
+                          options={roleOptions}
+                          placeholder={i18next.t("Select role")}
+                          {...(this.isCreator() && { clearable: true })}
+                          required={!this.isCreator()}
+                          optimized
+                          scrolling
+                        />
+                      )}
                     </div>
                   )}
                 </Form>
@@ -775,10 +788,12 @@ CreatibutorsModal.propTypes = {
   trigger: PropTypes.object.isRequired,
   onCreatibutorChange: PropTypes.func.isRequired,
   roleOptions: PropTypes.array,
+  showRole: PropTypes.bool,
 };
 
 CreatibutorsModal.defaultProps = {
   roleOptions: [],
   initialCreatibutor: {},
   autocompleteNames: "search",
+  showRole: true,
 };
