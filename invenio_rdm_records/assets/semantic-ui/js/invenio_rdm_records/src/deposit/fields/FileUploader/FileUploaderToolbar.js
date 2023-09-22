@@ -25,7 +25,9 @@ export const FileUploaderToolbar = (props) => {
     showMetadataOnlyToggle,
     quota,
     decimalSizeDisplay,
+    metadataOnlyCheckboxLabel,
   } = props;
+
   const { setFieldValue } = useFormikContext();
 
   const handleOnChangeMetadataOnly = () => {
@@ -63,7 +65,7 @@ export const FileUploaderToolbar = (props) => {
               <List horizontal>
                 <List.Item>
                   <Checkbox
-                    label={i18next.t("Metadata-only record")}
+                    label={metadataOnlyCheckboxLabel}
                     onChange={handleOnChangeMetadataOnly}
                     disabled={filesList.length > 0}
                     checked={!filesEnabled}
@@ -134,6 +136,7 @@ FileUploaderToolbar.propTypes = {
   quota: PropTypes.object,
   decimalSizeDisplay: PropTypes.bool,
   showMetadataOnlyToggle: PropTypes.bool,
+  metadataOnlyCheckboxLabel: PropTypes.string,
 };
 
 FileUploaderToolbar.defaultProps = {
@@ -142,4 +145,5 @@ FileUploaderToolbar.defaultProps = {
   quota: undefined,
   decimalSizeDisplay: false,
   showMetadataOnlyToggle: true,
+  metadataOnlyCheckboxLabel: i18next.t("Metadata-only record"),
 };
