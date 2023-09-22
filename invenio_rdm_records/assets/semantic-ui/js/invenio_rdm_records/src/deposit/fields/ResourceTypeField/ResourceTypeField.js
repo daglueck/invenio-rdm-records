@@ -51,12 +51,17 @@ export class ResourceTypeField extends Component {
   };
 
   render() {
-    const { fieldPath, label, labelIcon, options, ...restProps } = this.props;
+    const { fieldPath, label, labelIcon, options, required, ...restProps } = this.props;
     const frontEndOptions = this.createOptions(options);
+    const fieldLabel =
+      label && labelIcon && !required ? (
+        <FieldLabel htmlFor={fieldPath} icon={labelIcon} label={label} />
+      ) : undefined;
+
     return (
       <SelectField
         fieldPath={fieldPath}
-        label={<FieldLabel htmlFor={fieldPath} icon={labelIcon} label={label} />}
+        label={fieldLabel}
         optimized
         aria-label={label}
         options={frontEndOptions}
@@ -84,8 +89,8 @@ ResourceTypeField.propTypes = {
 };
 
 ResourceTypeField.defaultProps = {
-  label: i18next.t("Resource type"),
-  labelIcon: "tag",
+  label: undefined,
+  labelIcon: undefined,
   labelclassname: "field-label-class",
   required: false,
 };
