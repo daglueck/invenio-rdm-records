@@ -53,10 +53,9 @@ export class ResourceTypeField extends Component {
   render() {
     const { fieldPath, label, labelIcon, options, required, ...restProps } = this.props;
     const frontEndOptions = this.createOptions(options);
-    const fieldLabel =
-      label && labelIcon && !required ? (
-        <FieldLabel htmlFor={fieldPath} icon={labelIcon} label={label} />
-      ) : undefined;
+    const fieldLabel = label ? (
+      <FieldLabel htmlFor={fieldPath} icon={labelIcon} label={label} />
+    ) : undefined;
 
     return (
       <SelectField
