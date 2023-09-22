@@ -69,16 +69,20 @@ class LicenseFieldForm extends Component {
       required,
       searchConfig,
       serializeLicenses,
+      maxLicenses,
     } = this.props;
 
+    const rights = getIn(values, fieldPath, []);
     const uiRights = getIn(values, uiFieldPath, []);
+
+    const displayAddButtons = rights.length < maxLicenses;
 
     return (
       <DndProvider backend={HTML5Backend}>
         <Form.Field required={required}>
           <FieldLabel htmlFor={fieldPath} icon={labelIcon} label={label} />
           <List>
-            {getIn(values, fieldPath, []).map((value, index) => {
+            {rights.map((value, index) => {
               const license = new VisibleLicense(uiRights, value, index);
               return (
                 <LicenseFieldItem
@@ -93,35 +97,39 @@ class LicenseFieldForm extends Component {
               );
             })}
           </List>
-          <LicenseModal
-            searchConfig={searchConfig}
-            trigger={
-              <Button type="button" key="standard" icon labelPosition="left">
-                <Icon name="add" />
-                {i18next.t("Add standard")}
-              </Button>
-            }
-            onLicenseChange={(selectedLicense) => {
-              formikArrayPush(selectedLicense);
-            }}
-            mode="standard"
-            action="add"
-            serializeLicenses={serializeLicenses}
-          />
-          <LicenseModal
-            searchConfig={searchConfig}
-            trigger={
-              <Button type="button" key="custom" icon labelPosition="left">
-                <Icon name="add" />
-                {i18next.t("Add custom")}
-              </Button>
-            }
-            onLicenseChange={(selectedLicense) => {
-              formikArrayPush(selectedLicense);
-            }}
-            mode="custom"
-            action="add"
-          />
+          {displayAddButtons && (
+            <>
+              <LicenseModal
+                searchConfig={searchConfig}
+                trigger={
+                  <Button type="button" key="standard" icon labelPosition="left">
+                    <Icon name="add" />
+                    {i18next.t("Add standard")}
+                  </Button>
+                }
+                onLicenseChange={(selectedLicense) => {
+                  formikArrayPush(selectedLicense);
+                }}
+                mode="standard"
+                action="add"
+                serializeLicenses={serializeLicenses}
+              />
+              <LicenseModal
+                searchConfig={searchConfig}
+                trigger={
+                  <Button type="button" key="custom" icon labelPosition="left">
+                    <Icon name="add" />
+                    {i18next.t("Add custom")}
+                  </Button>
+                }
+                onLicenseChange={(selectedLicense) => {
+                  formikArrayPush(selectedLicense);
+                }}
+                mode="custom"
+                action="add"
+              />
+            </>
+          )}
         </Form.Field>
       </DndProvider>
     );
@@ -141,6 +149,7 @@ LicenseFieldForm.propTypes = {
   required: PropTypes.bool.isRequired,
   searchConfig: PropTypes.object.isRequired,
   serializeLicenses: PropTypes.func,
+  maxLicenses: PropTypes.number.isRequired,
 };
 
 LicenseFieldForm.defaultProps = {
@@ -171,6 +180,7 @@ LicenseField.propTypes = {
   required: PropTypes.bool,
   serializeLicenses: PropTypes.func,
   uiFieldPath: PropTypes.string,
+  maxLicenses: PropTypes.number,
 };
 
 LicenseField.defaultProps = {
@@ -179,4 +189,5 @@ LicenseField.defaultProps = {
   labelIcon: "drivers license",
   required: false,
   serializeLicenses: undefined,
+  maxLicenses: 1000,
 };
