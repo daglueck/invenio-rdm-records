@@ -361,6 +361,7 @@ export class CreatibutorsModal extends Component {
       trigger,
       action,
       showRole,
+      showPersonSearch,
     } = this.props;
 
     const { open, showPersonForm, saveAndContinueLabel } = this.state;
@@ -435,32 +436,33 @@ export class CreatibutorsModal extends Component {
                   </Form.Group>
                   {_get(values, typeFieldPath, "") === CREATIBUTOR_TYPE.PERSON ? (
                     <div>
-                      {autocompleteNames !== NamesAutocompleteOptions.OFF && (
-                        <RemoteSelectField
-                          selectOnBlur={false}
-                          selectOnNavigation={false}
-                          searchInput={{
-                            autoFocus: _isEmpty(initialCreatibutor),
-                          }}
-                          fieldPath="creators"
-                          clearable
-                          multiple={false}
-                          allowAdditions={false}
-                          placeholder={i18next.t(
-                            "Search for persons by name, identifier, or affiliation..."
-                          )}
-                          noQueryMessage={i18next.t(
-                            "Search for persons by name, identifier, or affiliation..."
-                          )}
-                          required={false}
-                          // Disable UI-side filtering of search results
-                          search={(options) => options}
-                          suggestionAPIUrl="/api/names"
-                          serializeSuggestions={this.serializeSuggestions}
-                          onValueChange={this.onPersonSearchChange}
-                          ref={this.namesAutocompleteRef}
-                        />
-                      )}
+                      {showPersonSearch &&
+                        autocompleteNames !== NamesAutocompleteOptions.OFF && (
+                          <RemoteSelectField
+                            selectOnBlur={false}
+                            selectOnNavigation={false}
+                            searchInput={{
+                              autoFocus: _isEmpty(initialCreatibutor),
+                            }}
+                            fieldPath="creators"
+                            clearable
+                            multiple={false}
+                            allowAdditions={false}
+                            placeholder={i18next.t(
+                              "Search for persons by name, identifier, or affiliation..."
+                            )}
+                            noQueryMessage={i18next.t(
+                              "Search for persons by name, identifier, or affiliation..."
+                            )}
+                            required={false}
+                            // Disable UI-side filtering of search results
+                            search={(options) => options}
+                            suggestionAPIUrl="/api/names"
+                            serializeSuggestions={this.serializeSuggestions}
+                            onValueChange={this.onPersonSearchChange}
+                            ref={this.namesAutocompleteRef}
+                          />
+                        )}
                       {showPersonForm && (
                         <div>
                           <Form.Group widths="equal">
@@ -624,6 +626,7 @@ CreatibutorsModal.propTypes = {
   onCreatibutorChange: PropTypes.func.isRequired,
   roleOptions: PropTypes.array,
   showRole: PropTypes.bool,
+  showPersonSearch: PropTypes.bool,
 };
 
 CreatibutorsModal.defaultProps = {
@@ -631,4 +634,5 @@ CreatibutorsModal.defaultProps = {
   initialCreatibutor: {},
   autocompleteNames: "search",
   showRole: true,
+  showPersonSearch: true,
 };
